@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,17 +34,11 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-//        database = FirebaseDatabase.getInstance();
-//        auth = FirebaseAuth.getInstance();
-//
-//        ReceiverUid = getIntent().getStringExtra("receiverUid");
-//        ReceiverName = getIntent().getStringExtra("receiverName");
-//        ReceiverImage = getIntent().getStringExtra("receiverImage");
+        database = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // 顯示 menu 中的返回按鍵
-//        getSupportActionBar().setTitle(ReceiverName);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        SenderUid = auth.getUid();
+        Toast.makeText(ChatActivity.this, auth.getUid().toString(), Toast.LENGTH_SHORT).show();
 
     }
 
