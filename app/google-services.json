@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "626811714073",
+    "firebase_url": "https://mygrouproom-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "mygrouproom",
+    "storage_bucket": "mygrouproom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:626811714073:android:93cd9123c3cbabb48a4888",
+        "android_client_info": {
+          "package_name": "com.example.mygrouproom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs-ikBVAIygSWjpn8tIARr3KYPAA1osTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
