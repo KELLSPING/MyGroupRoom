@@ -1,5 +1,6 @@
 package com.example.mygrouproom;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,11 +9,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -29,6 +35,8 @@ public class ChatActivity extends AppCompatActivity {
 //    ArrayList<Messages> messagesArrayList;
 //    MessagesAdapter adapter;
 
+    TextView tv0, tv1, tv2, tv3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +46,19 @@ public class ChatActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
         SenderUid = auth.getUid();
-        Toast.makeText(ChatActivity.this, auth.getUid().toString(), Toast.LENGTH_SHORT).show();
 
+        tv0 = findViewById(R.id.tv0);
+        tv1 = findViewById(R.id.tv1);
+        tv2 = findViewById(R.id.tv2);
+        tv3 = findViewById(R.id.tv3);
+
+        tv0.setText(SenderUid);
+        
+        tv1.setText(database.getReference("groups").getKey());
+
+        tv2.setText(database.getReference("groups").child("members").getKey());
+
+        tv3.setText(database.getReference("groups").child("name").getKey());
     }
 
     @Override
