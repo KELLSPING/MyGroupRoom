@@ -46,7 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     String groupName = "GroupChatRoom";
     String groupId;
 
-    DatabaseReference groupsRef;
+    DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +112,8 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()){
                                         progressDialog.dismiss();
 
-                                        if (groupsRef == null){
-                                            groupsRef = FirebaseDatabase.getInstance().getReference("Groups");
+                                        if (userRef == null){
+                                            userRef = FirebaseDatabase.getInstance().getReference("Users");
                                         }
 
                                         StorageReference storageRef = storage.getReference()
@@ -132,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                                                 imageURI = uri.toString();
                                                                                 Users users = new Users(auth.getUid(), name, email, imageURI, status);
 
-                                                                                groupsRef.child(groupName).child("members").child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                userRef.child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
                                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                                         if (task.isSuccessful()){
@@ -152,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             String status = "Aa";
                                             imageURI = "https://firebasestorage.googleapis.com/v0/b/mychatroomiii.appspot.com/o/person_image.xml?alt=media&token=c7a5d1d2-f7d7-46f6-bf64-1321a9f92c2f";
                                             Users users = new Users(auth.getUid(), name, email, imageURI, status);
-                                            groupsRef.child(groupId).child("members").child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            userRef.child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()){
