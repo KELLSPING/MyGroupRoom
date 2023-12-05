@@ -43,6 +43,11 @@ public class RegisterActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     AlertDialog progressDialog;
 
+    String groupName = "Chat Room 1";
+    String groupId;
+
+    DatabaseReference groupsRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         tvSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegisterActivity.this, RegisterActivity.class));
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
             }
         });
 
@@ -107,8 +112,12 @@ public class RegisterActivity extends AppCompatActivity {
                                     if (task.isSuccessful()){
                                         progressDialog.dismiss();
 
-                                        DatabaseReference databaseRef = database.getReference()
-                                                .child("user").child(auth.getUid());
+                                        if (groupsRef == null){
+                                            groupsRef = FirebaseDatabase.getInstance().getReference("groups");
+                                            groupId = groupsRef.push().getKey(); // 生成唯一的群組 ID
+                                            groupsRef.child(groupId).child("name").setValue(groupName);
+                                        }
+
                                         StorageReference storageRef = storage.getReference()
                                                 .child("upload").child(auth.getUid());
 
@@ -124,7 +133,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             public void onSuccess(Uri uri) {
                                                                                 imageURI = uri.toString();
                                                                                 Users users = new Users(auth.getUid(), name, email, imageURI, status);
-                                                                                databaseRef.setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                                                                groupsRef.child(groupId).child("members").child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
                                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                                         if (task.isSuccessful()){
@@ -133,7 +143,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                                                             Toast.makeText(RegisterActivity.this,
                                                                                                     "Create User Failed", Toast.LENGTH_SHORT).show();
                                                                                         }
-
                                                                                     }
                                                                                 });
                                                                             }
@@ -145,7 +154,7 @@ public class RegisterActivity extends AppCompatActivity {
                                             String status = "Aa";
                                             imageURI = "https://firebasestorage.googleapis.com/v0/b/mychatroomiii.appspot.com/o/person_image.xml?alt=media&token=c7a5d1d2-f7d7-46f6-bf64-1321a9f92c2f";
                                             Users users = new Users(auth.getUid(), name, email, imageURI, status);
-                                            databaseRef.setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            groupsRef.child(groupId).child("members").child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if (task.isSuccessful()){
@@ -154,7 +163,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                         Toast.makeText(RegisterActivity.this,
                                                                 "Create User Failed", Toast.LENGTH_SHORT).show();
                                                     }
-
                                                 }
                                             });
                                         }
