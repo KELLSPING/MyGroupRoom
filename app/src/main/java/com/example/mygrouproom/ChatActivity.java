@@ -1,18 +1,21 @@
 package com.example.mygrouproom;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -21,7 +24,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ChatActivity extends AppCompatActivity {
     String ReceiverUid, ReceiverName, ReceiverImage, SenderUid;
@@ -33,13 +39,19 @@ public class ChatActivity extends AppCompatActivity {
     EditText etMessage;
     String senderRoom, receiverRoom;
     RecyclerView messageAdapter;
-//    ArrayList<Messages> messagesArrayList;
-//    MessagesAdapter adapter;
+    ArrayList<Messages> messagesArrayList;
+    MessagesAdapter adapter;
+
+    String currentGroupName, currentUserId, currentUserName, currentDate, currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        btnSend = findViewById(R.id.btnSend);
+        etMessage = findViewById(R.id.etMessage);
+        messageAdapter = findViewById(R.id.messageAdapter);
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -48,7 +60,29 @@ public class ChatActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(database.getReference("Groups").child("GroupChatRoom").getKey());
 
-    }
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message = etMessage.getText().toString();
+
+                if (TextUtils.isEmpty(message)){
+                    Toast.makeText(ChatActivity.this, "Empty message", Toast.LENGTH_SHORT).show();
+                } else {
+                    Calendar calendarForDate = Calendar.getInstance();
+                    SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    currentDate = currentDateFormat.format(calendarForDate.getTime());
+
+                    Calendar calendarForTime = Calendar.getInstance();
+                    SimpleDateFormat currentTimeFormat = new SimpleDateFormat("HH:mm:ss");
+                    currentTime = currentTimeFormat.format(calendarForTime.getTime());
+                }
+
+                etMessage.setText("");
+
+            }
+        }); // btnSend
+
+    } // onCreate
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
