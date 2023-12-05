@@ -43,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
     AlertDialog.Builder builder;
     AlertDialog progressDialog;
 
-    String groupName = "Chat Room 1";
+    String groupName = "GroupChatRoom";
     String groupId;
 
     DatabaseReference groupsRef;
@@ -113,9 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         progressDialog.dismiss();
 
                                         if (groupsRef == null){
-                                            groupsRef = FirebaseDatabase.getInstance().getReference("groups");
-                                            groupId = groupsRef.push().getKey(); // 生成唯一的群組 ID
-                                            groupsRef.child(groupId).child("name").setValue(groupName);
+                                            groupsRef = FirebaseDatabase.getInstance().getReference("Groups");
                                         }
 
                                         StorageReference storageRef = storage.getReference()
@@ -134,7 +132,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                                                 imageURI = uri.toString();
                                                                                 Users users = new Users(auth.getUid(), name, email, imageURI, status);
 
-                                                                                groupsRef.child(groupId).child("members").child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                groupsRef.child(groupName).child("members").child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
                                                                                     public void onComplete(@NonNull Task<Void> task) {
                                                                                         if (task.isSuccessful()){

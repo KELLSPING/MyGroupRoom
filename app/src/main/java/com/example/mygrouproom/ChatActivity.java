@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,8 +36,6 @@ public class ChatActivity extends AppCompatActivity {
 //    ArrayList<Messages> messagesArrayList;
 //    MessagesAdapter adapter;
 
-    TextView tv0, tv1, tv2, tv3;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,34 +46,26 @@ public class ChatActivity extends AppCompatActivity {
 
         SenderUid = auth.getUid();
 
-        tv0 = findViewById(R.id.tv0);
-        tv1 = findViewById(R.id.tv1);
-        tv2 = findViewById(R.id.tv2);
-        tv3 = findViewById(R.id.tv3);
+        getSupportActionBar().setTitle(database.getReference("Groups").child("GroupChatRoom").getKey());
 
-        tv0.setText(SenderUid);
-        
-        tv1.setText(database.getReference("groups").getKey());
-
-        tv2.setText(database.getReference("groups").child("members").getKey());
-
-        tv3.setText(database.getReference("groups").child("name").getKey());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_chat_activity, menu);
+        menuInflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout){
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(ChatActivity.this, LoginActivity.class));
+            finish();
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 }
