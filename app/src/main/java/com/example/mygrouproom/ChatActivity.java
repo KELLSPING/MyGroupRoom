@@ -67,7 +67,7 @@ public class ChatActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        getSupportActionBar().setTitle(database.getReference("Groups").child("GroupChatRoom").getKey());
+        getSupportActionBar().setTitle(database.getReference("Groups").child("GroupChatRoom1").getKey());
 
         chatRef = database.getReference().child("Groups");
         String msgKey = chatRef.push().getKey(); // senderId
@@ -119,6 +119,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 database = FirebaseDatabase.getInstance();
                 database.getReference().child("Group")
+                        .child("GroupChatRoom1")
                         .push()
                         .setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
