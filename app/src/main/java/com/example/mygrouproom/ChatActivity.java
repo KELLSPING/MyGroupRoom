@@ -77,7 +77,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
                     currentGroupName = dataSnapshot.child("GroupChatRoom1").getKey();
-                    tv.setText(currentGroupName);
+//                    tv.setText(currentGroupName);
                 }
             }
 
@@ -87,7 +87,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        groupNameRef = groupRef.child("GroupChatRoom1");
+
 
         // get current user info
         currentUserId = auth.getUid();
@@ -154,43 +154,38 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        groupNameRef = database.getReference().child("Groups").child("GroupChatRoom1");
 
+        groupNameRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if (snapshot.exists()){
+                    tv.append(snapshot.getValue().toString());
+                }
+            }
 
-//        groupNameRef.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                if (snapshot.exists()){
-//                    Iterator iterator = snapshot.getChildren().iterator();
-//
-//                    while (iterator.hasNext()){
-//                        String chatTime = (String) ((DataSnapshot) iterator.next()).getValue();
-//                        String chatMsg = (String) ((DataSnapshot) iterator.next()).getValue();
-//                        String chatSenderId = (String) ((DataSnapshot) iterator.next()).getValue();
-//                        tv.append(chatSenderId + " :\n" + chatMsg + "\n" + chatTime + "\n\n\n");
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                if (snapshot.exists()){
+
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     } // onStart
 
