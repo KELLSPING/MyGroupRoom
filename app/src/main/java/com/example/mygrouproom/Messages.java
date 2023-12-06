@@ -5,13 +5,10 @@ public class Messages {
     String senderId;
     long timeStamp;
 
-    public Messages() {
-    }
-
-    public Messages(String message, String senderId, long timeStamp) {
+    public Messages(long time, String msgKey, String message) {
         this.message = message;
-        this.senderId = senderId;
-        this.timeStamp = timeStamp;
+        this.senderId = msgKey;
+        this.timeStamp = time;
     }
 
     public String getMessage() {

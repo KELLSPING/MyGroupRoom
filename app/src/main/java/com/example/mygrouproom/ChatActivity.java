@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,8 +29,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity {
+    DatabaseReference chatRef, userRef;
     String ReceiverUid, ReceiverName, ReceiverImage, SenderUid;
     FirebaseDatabase database;
     FirebaseAuth auth;
@@ -60,6 +63,9 @@ public class ChatActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(database.getReference("Groups").child("GroupChatRoom").getKey());
 
+        chatRef = database.getReference().child("Groups");
+        String msgKey = chatRef.push().getKey(); // senderId
+
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +84,20 @@ public class ChatActivity extends AppCompatActivity {
                 }
 
                 etMessage.setText("");
+
+                Date date = new Date();
+
+                Messages messages = new Messages(date.getTime(), msgKey, message);
+
+                database = FirebaseDatabase.getInstance();
+                database.getReference().child("Group")
+                        .push()
+                        .setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+
+                            }
+                        });
 
             }
         }); // btnSend
