@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,8 @@ public class ChatActivity extends AppCompatActivity {
 
     String currentGroupName, currentUserId, currentUserName, currentDate, currentTime;
 
+    TextView tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,8 @@ public class ChatActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSend);
         etMessage = findViewById(R.id.etMessage);
         messageAdapter = findViewById(R.id.messageAdapter);
+
+        tv = findViewById(R.id.tv);
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -65,6 +70,10 @@ public class ChatActivity extends AppCompatActivity {
 
         chatRef = database.getReference().child("Groups");
         String msgKey = chatRef.push().getKey(); // senderId
+
+        userRef = database.getReference().child("Users");
+        String sss = userRef.child(SenderUid).toString();
+        tv.setText(sss);
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override

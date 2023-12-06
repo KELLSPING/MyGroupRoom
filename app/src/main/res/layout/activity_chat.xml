@@ -6,11 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="...."/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageAdapter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/ll3"/>
+        android:layout_above="@id/ll3"
+        android:layout_below="@id/tv"/>
 
     <LinearLayout
         android:id="@+id/ll3"
