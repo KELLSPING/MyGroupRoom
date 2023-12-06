@@ -55,6 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
     DatabaseReference userRef;
     AutoCompleteTextView designSpinner;
     List<String> langList;
+    String chooseLanguage;
 
 
     @Override
@@ -75,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
         designSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(RegisterActivity.this, "You Clicked "+langList.get(position), Toast.LENGTH_SHORT).show();
+                chooseLanguage = langList.get(position);
             }
         });
 
@@ -151,7 +152,8 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             @Override
                                                                             public void onSuccess(Uri uri) {
                                                                                 imageURI = uri.toString();
-                                                                                Users users = new Users(auth.getUid(), name, email, imageURI, status);
+
+                                                                                Users users = new Users(auth.getUid(), name, email, imageURI, status, chooseLanguage);
 
                                                                                 userRef.child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
@@ -172,7 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         } else {
                                             String status = "Aa";
                                             imageURI = "https://firebasestorage.googleapis.com/v0/b/mychatroomiii.appspot.com/o/person_image.xml?alt=media&token=c7a5d1d2-f7d7-46f6-bf64-1321a9f92c2f";
-                                            Users users = new Users(auth.getUid(), name, email, imageURI, status);
+                                            Users users = new Users(auth.getUid(), name, email, imageURI, status, chooseLanguage);
                                             userRef.child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
