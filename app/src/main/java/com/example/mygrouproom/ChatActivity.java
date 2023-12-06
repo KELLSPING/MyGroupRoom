@@ -35,7 +35,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 public class ChatActivity extends AppCompatActivity {
-    DatabaseReference chatRef, userRef, groupRef, groupNameRef;
+    DatabaseReference userRef, groupRef, groupNameRef;
     FirebaseDatabase database;
     FirebaseAuth auth;
     public static String sImage;
@@ -70,8 +70,6 @@ public class ChatActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(database.getReference("Groups").child("GroupChatRoom1").getKey());
 
-        chatRef = database.getReference().child("Groups");
-
         // get current group chat room name
         groupRef = database.getReference().child("Groups");
         groupRef.addValueEventListener(new ValueEventListener() {
@@ -88,6 +86,8 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+
+        groupNameRef = groupRef.child("GroupChatRoom1");
 
         // get current user info
         currentUserId = auth.getUid();
@@ -154,7 +154,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        groupNameRef = groupRef.child("GroupChatRoom1");
+
 
 //        groupNameRef.addChildEventListener(new ChildEventListener() {
 //            @Override
@@ -191,6 +191,7 @@ public class ChatActivity extends AppCompatActivity {
 //
 //            }
 //        });
+
     } // onStart
 
     @Override
