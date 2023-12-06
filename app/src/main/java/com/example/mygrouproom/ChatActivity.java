@@ -130,7 +130,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 String currentDateTime = currentDate + " " + currentTime;
 
-                Messages messages = new Messages(currentUserName, currentUserId, currentDateTime, msgKey, message);
+                Messages messages = new Messages(currentUserName, currentUserId, currentDateTime, msgKey, message, currentUserImageUri);
 
                 database = FirebaseDatabase.getInstance();
                 database.getReference().child("Groups")
@@ -161,9 +161,12 @@ public class ChatActivity extends AppCompatActivity {
                     String chatSenderId = snapshot.child("senderId").getValue().toString();
                     String chatDataTime = snapshot.child("dataTime").getValue().toString();
                     String chatMessage = snapshot.child("message").getValue().toString();
+                    String chatImage = snapshot.child("imageUri").getValue().toString();
+                    String chatMsgKey = snapshot.child("msgKey").getValue().toString();
 
                     tv.append(chatName + "\n"
                             + chatMessage + "\n"
+                            + chatImage + "\n"
                             + chatDataTime + "\n\n\n");
                 }
             }

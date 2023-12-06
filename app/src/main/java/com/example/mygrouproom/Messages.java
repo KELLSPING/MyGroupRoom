@@ -6,16 +6,18 @@ public class Messages {
     String dataTime;
     String msgKey;
     String message;
+    String imageUri;
 
     public Messages() {
     }
 
-    public Messages(String name, String senderId, String dataTime, String msgKey, String message) {
+    public Messages(String name, String senderId, String dataTime, String msgKey, String message, String imageUri) {
         this.name = name;
         this.senderId = senderId;
         this.dataTime = dataTime;
         this.msgKey = msgKey;
         this.message = message;
+        this.imageUri = imageUri;
     }
 
     public String getName() {
@@ -56,5 +58,13 @@ public class Messages {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getImageUri() {
+        return imageUri;
+    }
+
+    public void setImageUri(String imageUri) {
+        this.imageUri = imageUri;
     }
 }
