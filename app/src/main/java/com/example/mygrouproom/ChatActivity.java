@@ -1,5 +1,6 @@
 package com.example.mygrouproom;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -129,11 +130,11 @@ public class ChatActivity extends AppCompatActivity {
 
                 etMessage.setText("");
 
-                Date date = new Date();
-
                 String msgKey = groupRef.push().getKey(); // senderId
 
-                Messages messages = new Messages(date.getTime(), msgKey, message);
+                String currentDateTime = currentDate + " " + currentTime;
+
+                Messages messages = new Messages(currentDateTime, msgKey, message);
 
                 database = FirebaseDatabase.getInstance();
                 database.getReference().child("Groups")

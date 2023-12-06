@@ -3,9 +3,9 @@ package com.example.mygrouproom;
 public class Messages {
     String message;
     String senderId;
-    long timeStamp;
+    String timeStamp;
 
-    public Messages(long time, String msgKey, String message) {
+    public Messages(String time, String msgKey, String message) {
         this.message = message;
         this.senderId = msgKey;
         this.timeStamp = time;
@@ -27,11 +27,11 @@ public class Messages {
         this.senderId = senderId;
     }
 
-    public long getTimeStamp() {
+    public String getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(long timeStamp) {
+    public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
 }
