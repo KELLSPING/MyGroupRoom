@@ -34,7 +34,7 @@ import java.util.Date;
 import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity {
-    DatabaseReference chatRef, userRef;
+    DatabaseReference chatRef, userRef, groupNameRef;
     FirebaseDatabase database;
     FirebaseAuth auth;
     public static String sImage;
@@ -72,6 +72,23 @@ public class ChatActivity extends AppCompatActivity {
         chatRef = database.getReference().child("Groups");
         String msgKey = chatRef.push().getKey(); // senderId
 
+        // get current group chat room name
+        groupNameRef = database.getReference().child("Groups");
+        groupNameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    currentGroupName = dataSnapshot.child("GroupChatRoom1").getKey();
+                    tv.setText(currentGroupName);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         // get current user info
         currentUserId = auth.getUid();
         userRef = database.getReference().child("Users");
@@ -83,7 +100,6 @@ public class ChatActivity extends AppCompatActivity {
                     currentUserEmail = dataSnapshot.child("email").getValue(String.class);
                     currentUserStatus = dataSnapshot.child("status").getValue(String.class);
                     currentUserImageUri = dataSnapshot.child("imageUri").getValue(String.class);
-                    tv.setText(currentUserImageUri);
                 }
             }
 
@@ -118,7 +134,7 @@ public class ChatActivity extends AppCompatActivity {
                 Messages messages = new Messages(date.getTime(), msgKey, message);
 
                 database = FirebaseDatabase.getInstance();
-                database.getReference().child("Group")
+                database.getReference().child("Groups")
                         .child("GroupChatRoom1")
                         .push()
                         .setValue(messages).addOnCompleteListener(new OnCompleteListener<Void>() {
