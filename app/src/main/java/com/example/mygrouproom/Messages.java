@@ -3,7 +3,7 @@ package com.example.mygrouproom;
 public class Messages {
     String name;
     String senderId;
-    String dataTime;
+    long sendMsgTimeStamp;
     String msgKey;
     String message;
     String imageUri;
@@ -11,10 +11,10 @@ public class Messages {
     public Messages() {
     }
 
-    public Messages(String name, String senderId, String dataTime, String msgKey, String message, String imageUri) {
+    public Messages(String name, String senderId, long sendMsgTimeStamp, String msgKey, String message, String imageUri) {
         this.name = name;
         this.senderId = senderId;
-        this.dataTime = dataTime;
+        this.sendMsgTimeStamp = sendMsgTimeStamp;
         this.msgKey = msgKey;
         this.message = message;
         this.imageUri = imageUri;
@@ -36,12 +36,12 @@ public class Messages {
         this.senderId = senderId;
     }
 
-    public String getDataTime() {
-        return dataTime;
+    public long getSendMsgTimeStamp() {
+        return sendMsgTimeStamp;
     }
 
-    public void setDataTime(String dataTime) {
-        this.dataTime = dataTime;
+    public void setSendMsgTimeStamp(long sendMsgTimeStamp) {
+        this.sendMsgTimeStamp = sendMsgTimeStamp;
     }
 
     public String getMsgKey() {

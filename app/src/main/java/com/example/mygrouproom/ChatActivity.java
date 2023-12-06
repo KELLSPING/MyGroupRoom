@@ -120,27 +120,20 @@ public class ChatActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                long timestamp = 0;
                 String message = etMessage.getText().toString();
 
                 if (TextUtils.isEmpty(message)){
                     Toast.makeText(ChatActivity.this, "Empty message", Toast.LENGTH_SHORT).show();
                 } else {
-                    Calendar calendarForDate = Calendar.getInstance();
-                    SimpleDateFormat currentDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    currentDate = currentDateFormat.format(calendarForDate.getTime());
-
-                    Calendar calendarForTime = Calendar.getInstance();
-                    SimpleDateFormat currentTimeFormat = new SimpleDateFormat("HH:mm:ss");
-                    currentTime = currentTimeFormat.format(calendarForTime.getTime());
+                    timestamp = System.currentTimeMillis();
                 }
 
                 etMessage.setText("");
 
                 String msgKey = groupRef.push().getKey(); // senderId
 
-                String currentDateTime = currentDate + " " + currentTime;
-
-                Messages messages = new Messages(currentUserName, currentUserId, currentDateTime, msgKey, message, currentUserImageUri);
+                Messages messages = new Messages(currentUserName, currentUserId, timestamp, msgKey, message, currentUserImageUri);
 
                 database = FirebaseDatabase.getInstance();
                 database.getReference().child("Groups")
