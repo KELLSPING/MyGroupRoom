@@ -213,15 +213,12 @@ public class ChatActivity extends AppCompatActivity {
     } // onStart
 
     private String formatTimeStamp(String chatSendMsgTimeStamp) {
-        // Create a SimpleDateFormat object to format the timestamp
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
         long chatSendMsgTimeStampL = Long.parseLong(chatSendMsgTimeStamp);
 
-        // Convert the timestamp to a Date object
         Date date = new Date(chatSendMsgTimeStampL);
 
-        // Format the Date object to a string
         String chatSendMsgTimeStampF = dateFormat.format(date);
         return chatSendMsgTimeStampF;
     }
