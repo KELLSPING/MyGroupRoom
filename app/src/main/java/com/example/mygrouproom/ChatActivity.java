@@ -32,6 +32,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity {
     DatabaseReference userRef, groupRef, groupNameRef;
@@ -53,7 +55,7 @@ public class ChatActivity extends AppCompatActivity {
 
     TextView tv;
     ScrollView scrollView;
-    String chatName, chatSenderId, chatDataTime, chatMessage, chatImageUri, chatMsgKey;
+    String chatName, chatSenderId, chatSendMsgTimeStamp, chatMessage, chatImageUri, chatMsgKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,20 +122,19 @@ public class ChatActivity extends AppCompatActivity {
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                long timestamp = 0;
                 String message = etMessage.getText().toString();
 
                 if (TextUtils.isEmpty(message)){
                     Toast.makeText(ChatActivity.this, "Empty message", Toast.LENGTH_SHORT).show();
-                } else {
-                    timestamp = System.currentTimeMillis();
                 }
+
+                long sendMsgTimeStamp = System.currentTimeMillis();
 
                 etMessage.setText("");
 
                 String msgKey = groupRef.push().getKey(); // senderId
 
-                Messages messages = new Messages(currentUserName, currentUserId, timestamp, msgKey, message, currentUserImageUri);
+                Messages messages = new Messages(currentUserName, currentUserId, sendMsgTimeStamp, msgKey, message, currentUserImageUri);
 
                 database = FirebaseDatabase.getInstance();
                 database.getReference().child("Groups")
@@ -165,14 +166,14 @@ public class ChatActivity extends AppCompatActivity {
                 if (snapshot.exists()){
                     chatName = snapshot.child("name").getValue().toString();
                     chatSenderId = snapshot.child("senderId").getValue().toString();
-                    chatDataTime = snapshot.child("dataTime").getValue().toString();
+                    chatSendMsgTimeStamp = snapshot.child("sendMsgTimeStamp").getValue().toString();
                     chatMessage = snapshot.child("message").getValue().toString();
                     chatImageUri = snapshot.child("imageUri").getValue().toString();
                     chatMsgKey = snapshot.child("msgKey").getValue().toString();
 
                     tv.append(chatName + "\n"
                             + chatMessage + "\n"
-                            + chatDataTime + "\n\n\n");
+                            + formatTimeStamp(chatSendMsgTimeStamp) + "\n\n\n");
 
                     scrollScrollViewToBottom();
                 }
@@ -210,6 +211,20 @@ public class ChatActivity extends AppCompatActivity {
         });
 
     } // onStart
+
+    private String formatTimeStamp(String chatSendMsgTimeStamp) {
+        // Create a SimpleDateFormat object to format the timestamp
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+        long chatSendMsgTimeStampL = Long.parseLong(chatSendMsgTimeStamp);
+
+        // Convert the timestamp to a Date object
+        Date date = new Date(chatSendMsgTimeStampL);
+
+        // Format the Date object to a string
+        String chatSendMsgTimeStampF = dateFormat.format(date);
+        return chatSendMsgTimeStampF;
+    }
 
     @Override
     protected void onResume() {
