@@ -160,7 +160,11 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()){
-                    tv.append(snapshot.getValue().toString());
+                    String senderId = snapshot.child("senderId").getValue().toString();
+                    String message = snapshot.child("message").getValue().toString();
+                    String timeStamp = snapshot.child("timeStamp").getValue().toString();
+
+                    tv.append(senderId + " :\n" + message + "\n" + timeStamp + "\n\n\n");
                 }
             }
 
