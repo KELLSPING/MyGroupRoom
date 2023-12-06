@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity {
     DatabaseReference chatRef, userRef, groupNameRef;
@@ -70,7 +68,6 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(database.getReference("Groups").child("GroupChatRoom1").getKey());
 
         chatRef = database.getReference().child("Groups");
-        String msgKey = chatRef.push().getKey(); // senderId
 
         // get current group chat room name
         groupNameRef = database.getReference().child("Groups");
@@ -130,6 +127,8 @@ public class ChatActivity extends AppCompatActivity {
                 etMessage.setText("");
 
                 Date date = new Date();
+
+                String msgKey = groupNameRef.push().getKey(); // senderId
 
                 Messages messages = new Messages(date.getTime(), msgKey, message);
 

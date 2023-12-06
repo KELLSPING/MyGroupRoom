@@ -9,13 +9,14 @@
     <TextView
         android:id="@+id/tv"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="...."/>
+        android:layout_height="match_parent"
+        android:text="...."
+        android:layout_above="@id/ll3"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/messageAdapter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@id/ll3"
         android:layout_below="@id/tv"/>
 
