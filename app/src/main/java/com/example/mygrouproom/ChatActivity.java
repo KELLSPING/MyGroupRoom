@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class ChatActivity extends AppCompatActivity {
     String currentGroupName;
 
     TextView tv;
+    ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
         messageAdapter = findViewById(R.id.messageAdapter);
 
         tv = findViewById(R.id.tv);
+        scrollView = findViewById(R.id.scrollView);
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -161,12 +164,11 @@ public class ChatActivity extends AppCompatActivity {
                     String chatSenderId = snapshot.child("senderId").getValue().toString();
                     String chatDataTime = snapshot.child("dataTime").getValue().toString();
                     String chatMessage = snapshot.child("message").getValue().toString();
-                    String chatImage = snapshot.child("imageUri").getValue().toString();
+                    String chatImageUri = snapshot.child("imageUri").getValue().toString();
                     String chatMsgKey = snapshot.child("msgKey").getValue().toString();
 
                     tv.append(chatName + "\n"
                             + chatMessage + "\n"
-                            + chatImage + "\n"
                             + chatDataTime + "\n\n\n");
                 }
             }
