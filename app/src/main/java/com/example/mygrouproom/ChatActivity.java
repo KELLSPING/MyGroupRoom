@@ -49,7 +49,8 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
     MessagesAdapter adapter;
 
     String currentDate, currentTime;
-    String currentUserId, currentUserName, currentUserEmail, currentUserStatus, currentUserImageUri;
+    String currentUserId, currentUserName, currentUserEmail;
+    String currentUserStatus, currentUserImageUri, currentUserRegisTimeStamp;
     String currentUserLanguage;
 
     String currentGroupName;
@@ -111,6 +112,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                     currentUserStatus = dataSnapshot.child("status").getValue(String.class);
                     currentUserImageUri = dataSnapshot.child("imageUri").getValue(String.class);
                     currentUserLanguage = dataSnapshot.child("language").getValue(String.class);
+                    currentUserRegisTimeStamp = dataSnapshot.child("regisTimeStamp").getValue().toString();
                 }
 
                 if (currentUserLanguage != null){
