@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,9 +32,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 
 public class ChatActivity extends AppCompatActivity {
-    DatabaseReference chatRef, userRef, groupNameRef;
+    DatabaseReference chatRef, userRef, groupRef, groupNameRef;
     FirebaseDatabase database;
     FirebaseAuth auth;
     public static String sImage;
@@ -70,8 +73,8 @@ public class ChatActivity extends AppCompatActivity {
         chatRef = database.getReference().child("Groups");
 
         // get current group chat room name
-        groupNameRef = database.getReference().child("Groups");
-        groupNameRef.addValueEventListener(new ValueEventListener() {
+        groupRef = database.getReference().child("Groups");
+        groupRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
@@ -128,7 +131,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 Date date = new Date();
 
-                String msgKey = groupNameRef.push().getKey(); // senderId
+                String msgKey = groupRef.push().getKey(); // senderId
 
                 Messages messages = new Messages(date.getTime(), msgKey, message);
 
@@ -147,6 +150,48 @@ public class ChatActivity extends AppCompatActivity {
         }); // btnSend
 
     } // onCreate
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        groupNameRef = groupRef.child("GroupChatRoom1");
+
+//        groupNameRef.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                if (snapshot.exists()){
+//                    Iterator iterator = snapshot.getChildren().iterator();
+//
+//                    while (iterator.hasNext()){
+//                        String chatTime = (String) ((DataSnapshot) iterator.next()).getValue();
+//                        String chatMsg = (String) ((DataSnapshot) iterator.next()).getValue();
+//                        String chatSenderId = (String) ((DataSnapshot) iterator.next()).getValue();
+//                        tv.append(chatSenderId + " :\n" + chatMsg + "\n" + chatTime + "\n\n\n");
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+    } // onStart
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
