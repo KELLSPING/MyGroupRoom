@@ -53,6 +53,7 @@ public class ChatActivity extends AppCompatActivity {
 
     TextView tv;
     ScrollView scrollView;
+    String chatName, chatSenderId, chatDataTime, chatMessage, chatImageUri, chatMsgKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,18 +170,26 @@ public class ChatActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Log.d("kells", "ChatActivity : groupNameRef : onChildAdded()");
                 if (snapshot.exists()){
-                    String chatName = snapshot.child("name").getValue().toString();
-                    String chatSenderId = snapshot.child("senderId").getValue().toString();
-                    String chatDataTime = snapshot.child("dataTime").getValue().toString();
-                    String chatMessage = snapshot.child("message").getValue().toString();
-                    String chatImageUri = snapshot.child("imageUri").getValue().toString();
-                    String chatMsgKey = snapshot.child("msgKey").getValue().toString();
+                    chatName = snapshot.child("name").getValue().toString();
+                    chatSenderId = snapshot.child("senderId").getValue().toString();
+                    chatDataTime = snapshot.child("dataTime").getValue().toString();
+                    chatMessage = snapshot.child("message").getValue().toString();
+                    chatImageUri = snapshot.child("imageUri").getValue().toString();
+                    chatMsgKey = snapshot.child("msgKey").getValue().toString();
 
                     tv.append(chatName + "\n"
                             + chatMessage + "\n"
                             + chatDataTime + "\n\n\n");
 
                     scrollScrollViewToBottom();
+                }
+
+                if (currentUserId != null && chatSenderId != null){
+                    if (currentUserId != chatSenderId){
+                        Log.d("kells", chatMessage);
+                    }
+                } else {
+                    Log.d("kells", "ID is null");
                 }
             }
 
