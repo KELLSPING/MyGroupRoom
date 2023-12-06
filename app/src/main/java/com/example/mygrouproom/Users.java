@@ -1,24 +1,25 @@
 package com.example.mygrouproom;
 
 public class Users {
-
     String uid;
     String name;
     String email;
     String imageUri;
     String status;
     String language;
+    long regisTimeStamp;
 
     public Users() {
     }
 
-    public Users(String uid, String name, String email, String imageUri, String status, String language) {
+    public Users(String uid, String name, String email, String imageUri, String status, String language, long regisTimeStamp) {
         this.uid = uid;
         this.name = name;
         this.email = email;
         this.imageUri = imageUri;
         this.status = status;
         this.language = language;
+        this.regisTimeStamp = regisTimeStamp;
     }
 
     public String getUid() {
@@ -67,5 +68,13 @@ public class Users {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public long getRegisTimeStamp() {
+        return regisTimeStamp;
+    }
+
+    public void setRegisTimeStamp(long regisTimeStamp) {
+        this.regisTimeStamp = regisTimeStamp;
     }
 }

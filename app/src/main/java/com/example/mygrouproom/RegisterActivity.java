@@ -153,7 +153,9 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             public void onSuccess(Uri uri) {
                                                                                 imageURI = uri.toString();
 
-                                                                                Users users = new Users(auth.getUid(), name, email, imageURI, status, chooseLanguage);
+                                                                                long timestamp = System.currentTimeMillis();
+
+                                                                                Users users = new Users(auth.getUid(), name, email, imageURI, status, chooseLanguage, timestamp);
 
                                                                                 userRef.child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                                     @Override
@@ -174,7 +176,9 @@ public class RegisterActivity extends AppCompatActivity {
                                         } else {
                                             String status = "Aa";
                                             imageURI = "https://firebasestorage.googleapis.com/v0/b/mychatroomiii.appspot.com/o/person_image.xml?alt=media&token=c7a5d1d2-f7d7-46f6-bf64-1321a9f92c2f";
-                                            Users users = new Users(auth.getUid(), name, email, imageURI, status, chooseLanguage);
+                                            long timestamp = System.currentTimeMillis();
+
+                                            Users users = new Users(auth.getUid(), name, email, imageURI, status, chooseLanguage, timestamp);
                                             userRef.child(auth.getUid()).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
