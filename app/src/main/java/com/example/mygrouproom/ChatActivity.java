@@ -170,6 +170,8 @@ public class ChatActivity extends AppCompatActivity {
                     tv.append(chatName + "\n"
                             + chatMessage + "\n"
                             + chatDataTime + "\n\n\n");
+
+                    scrollScrollViewToBottom();
                 }
             }
 
@@ -197,6 +199,15 @@ public class ChatActivity extends AppCompatActivity {
         });
 
     } // onStart
+
+    private void scrollScrollViewToBottom() {
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(View.FOCUS_DOWN);
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
