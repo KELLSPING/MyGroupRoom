@@ -1,19 +1,22 @@
 package com.example.mygrouproom;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +29,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -47,6 +53,9 @@ public class RegisterActivity extends AppCompatActivity {
     String groupId;
 
     DatabaseReference userRef;
+    AutoCompleteTextView designSpinner;
+    List<String> langList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,18 @@ public class RegisterActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         storage = FirebaseStorage.getInstance();
+
+        langList = Arrays.asList("English", "Chinese", "Japanese");
+
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, langList);
+        designSpinner.setAdapter(adapter);
+        designSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(RegisterActivity.this, "You Clicked "+langList.get(position), Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         builder = new AlertDialog.Builder(this);
         builder.setMessage("Please wait...");
@@ -203,6 +224,7 @@ public class RegisterActivity extends AppCompatActivity {
         etRegPass = findViewById(R.id.etRegPass);
         etRegConfPass = findViewById(R.id.etRegConfPass);
         btnSignUp = findViewById(R.id.btnSignUp);
+        designSpinner = findViewById(R.id.designSpinner);
     }
 
     @Override

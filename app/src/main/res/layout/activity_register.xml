@@ -59,6 +59,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="20dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:id="@+id/designSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/choose_language"
+                android:backgroundTint="@color/black"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:layout_marginHorizontal="20dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etRegPass"
