@@ -47,6 +47,7 @@ public class ChatActivity extends AppCompatActivity {
 
     String currentDate, currentTime;
     String currentUserId, currentUserName, currentUserEmail, currentUserStatus, currentUserImageUri;
+    String currentUserLanguage;
 
     String currentGroupName;
 
@@ -57,6 +58,7 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        Log.d("kells", "ChatActivity : onCreate()");
 
         btnSend = findViewById(R.id.btnSend);
         etMessage = findViewById(R.id.etMessage);
@@ -87,19 +89,23 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-
-
         // get current user info
         currentUserId = auth.getUid();
         userRef = database.getReference().child("Users");
         userRef.child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("kells", "ChatActivity : userRef : onDataChange()");
                 if (dataSnapshot.exists()){
                     currentUserName = dataSnapshot.child("name").getValue(String.class);
                     currentUserEmail = dataSnapshot.child("email").getValue(String.class);
                     currentUserStatus = dataSnapshot.child("status").getValue(String.class);
                     currentUserImageUri = dataSnapshot.child("imageUri").getValue(String.class);
+                    currentUserLanguage = dataSnapshot.child("language").getValue(String.class);
+                }
+
+                if (currentUserLanguage != null){
+                    Toast.makeText(ChatActivity.this, currentUserLanguage, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -154,11 +160,14 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d("kells", "ChatActivity : onStart()");
+
         groupNameRef = database.getReference().child("Groups").child("GroupChatRoom1");
 
         groupNameRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Log.d("kells", "ChatActivity : groupNameRef : onChildAdded()");
                 if (snapshot.exists()){
                     String chatName = snapshot.child("name").getValue().toString();
                     String chatSenderId = snapshot.child("senderId").getValue().toString();
@@ -199,6 +208,30 @@ public class ChatActivity extends AppCompatActivity {
         });
 
     } // onStart
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("kells", "ChatActivity : onResume()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("kells", "ChatActivity : onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("kells", "ChatActivity : onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("kells", "ChatActivity : onDestroy()");
+    }
 
     private void scrollScrollViewToBottom() {
         scrollView.post(new Runnable() {
