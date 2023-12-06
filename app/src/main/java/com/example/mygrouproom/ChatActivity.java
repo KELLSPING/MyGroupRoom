@@ -3,6 +3,7 @@ package com.example.mygrouproom;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,19 +35,21 @@ import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity {
     DatabaseReference chatRef, userRef;
-    String ReceiverUid, ReceiverName, ReceiverImage, SenderUid;
     FirebaseDatabase database;
     FirebaseAuth auth;
     public static String sImage;
     public static String rImage;
     MaterialCardView btnSend;
     EditText etMessage;
-    String senderRoom, receiverRoom;
     RecyclerView messageAdapter;
     ArrayList<Messages> messagesArrayList;
     MessagesAdapter adapter;
 
-    String currentGroupName, currentUserId, currentUserName, currentDate, currentTime;
+    String currentDate, currentTime;
+    String currentUserId, currentUserName, currentUserEmail, currentUserStatus, currentUserImageUri;
+
+    String currentGroupName;
+    String ReceiverUid, ReceiverName, ReceiverImage, SenderUid;
 
     TextView tv;
 
@@ -64,16 +67,32 @@ public class ChatActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        SenderUid = auth.getUid();
-
         getSupportActionBar().setTitle(database.getReference("Groups").child("GroupChatRoom").getKey());
 
         chatRef = database.getReference().child("Groups");
         String msgKey = chatRef.push().getKey(); // senderId
 
+        // get current user info
+        currentUserId = auth.getUid();
         userRef = database.getReference().child("Users");
-        String sss = userRef.child(SenderUid).toString();
-        tv.setText(sss);
+        userRef.child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    currentUserName = dataSnapshot.child("name").getValue(String.class);
+                    currentUserEmail = dataSnapshot.child("email").getValue(String.class);
+                    currentUserStatus = dataSnapshot.child("status").getValue(String.class);
+                    currentUserImageUri = dataSnapshot.child("imageUri").getValue(String.class);
+                    tv.setText(currentUserImageUri);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // 讀取數據時發生錯誤
+                Log.e("Firebase", "Error reading data", databaseError.toException());
+            }
+        });
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
