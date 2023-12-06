@@ -114,7 +114,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                     currentUserLanguage = dataSnapshot.child("language").getValue(String.class);
                     currentUserRegisTimeStamp = dataSnapshot.child("regisTimeStamp").getValue().toString();
                 }
-
+                Log.d("kells", "ChatActivity : userRef : onDataChange() : currentUserRegisTimeStamp = " + currentUserRegisTimeStamp);
                 if (currentUserLanguage != null){
                     Toast.makeText(ChatActivity.this, currentUserLanguage, Toast.LENGTH_SHORT).show();
                 }
@@ -188,7 +188,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
 
                 if (currentUserId != null && chatSenderId != null){
                     if (currentUserId != chatSenderId){
-                        Log.d("kells", chatMessage);
+                        Log.d("kells", "currentUserId != chatSenderId");
                     }
                 } else {
                     Log.d("kells", "ID is null");
