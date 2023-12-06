@@ -1,6 +1,5 @@
 package com.example.mygrouproom;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,8 +31,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
 
 public class ChatActivity extends AppCompatActivity {
     DatabaseReference userRef, groupRef, groupNameRef;
@@ -51,7 +48,6 @@ public class ChatActivity extends AppCompatActivity {
     String currentUserId, currentUserName, currentUserEmail, currentUserStatus, currentUserImageUri;
 
     String currentGroupName;
-    String ReceiverUid, ReceiverName, ReceiverImage, SenderUid;
 
     TextView tv;
 
@@ -134,7 +130,7 @@ public class ChatActivity extends AppCompatActivity {
 
                 String currentDateTime = currentDate + " " + currentTime;
 
-                Messages messages = new Messages(currentDateTime, msgKey, message);
+                Messages messages = new Messages(currentUserName, currentUserId, currentDateTime, msgKey, message);
 
                 database = FirebaseDatabase.getInstance();
                 database.getReference().child("Groups")
@@ -161,11 +157,14 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if (snapshot.exists()){
-                    String senderId = snapshot.child("senderId").getValue().toString();
-                    String message = snapshot.child("message").getValue().toString();
-                    String timeStamp = snapshot.child("timeStamp").getValue().toString();
+                    String chatName = snapshot.child("name").getValue().toString();
+                    String chatSenderId = snapshot.child("senderId").getValue().toString();
+                    String chatDataTime = snapshot.child("dataTime").getValue().toString();
+                    String chatMessage = snapshot.child("message").getValue().toString();
 
-                    tv.append(senderId + " :\n" + message + "\n" + timeStamp + "\n\n\n");
+                    tv.append(chatName + "\n"
+                            + chatMessage + "\n"
+                            + chatDataTime + "\n\n\n");
                 }
             }
 

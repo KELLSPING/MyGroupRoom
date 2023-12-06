@@ -1,22 +1,29 @@
 package com.example.mygrouproom;
 
 public class Messages {
-    String message;
+    String name;
     String senderId;
-    String timeStamp;
+    String dataTime;
+    String msgKey;
+    String message;
 
-    public Messages(String time, String msgKey, String message) {
-        this.message = message;
-        this.senderId = msgKey;
-        this.timeStamp = time;
+    public Messages() {
     }
 
-    public String getMessage() {
-        return message;
+    public Messages(String name, String senderId, String dataTime, String msgKey, String message) {
+        this.name = name;
+        this.senderId = senderId;
+        this.dataTime = dataTime;
+        this.msgKey = msgKey;
+        this.message = message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSenderId() {
@@ -27,11 +34,27 @@ public class Messages {
         this.senderId = senderId;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getDataTime() {
+        return dataTime;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setDataTime(String dataTime) {
+        this.dataTime = dataTime;
+    }
+
+    public String getMsgKey() {
+        return msgKey;
+    }
+
+    public void setMsgKey(String msgKey) {
+        this.msgKey = msgKey;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
