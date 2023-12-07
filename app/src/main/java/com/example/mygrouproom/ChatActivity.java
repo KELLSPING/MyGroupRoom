@@ -86,19 +86,6 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                 if (currentUserLanguage != null){
                     Toast.makeText(ChatActivity.this, currentUserLanguage, Toast.LENGTH_SHORT).show();
                 }
-
-                if (currentUserId != null && chatSenderId != null){
-                    if (!chatSenderId.equals(currentUserId)){
-                        Log.d("kells", "currentUserId != chatSenderId");
-                        if (chatMsgEarlierCurrUserRegis(currentUserRegisTimeStamp, chatSendMsgTimeStamp)){
-                            Log.d("kells", "chat message is earlier than current user register time");
-                        } else {
-                            Log.d("kells", "chat message is later than current user register time");
-                        }
-                    }
-                } else {
-                    Log.d("kells", "ID is null");
-                }
             }
 
             @Override
@@ -149,13 +136,39 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
         groupNameRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.d("kells", "ChatActivity : groupNameRef : onChildAdded()");
+                Log.d("kells", "ChatActivity : onStart() : groupNameRef : onChildAdded()");
                 if (snapshot.exists()){
                     chatName = snapshot.child("name").getValue().toString();
                     chatSenderId = snapshot.child("senderId").getValue().toString();
                     chatSendMsgTimeStamp = snapshot.child("sendMsgTimeStamp").getValue().toString();
                     chatMessage = snapshot.child("message").getValue().toString();
                     chatImageUri = snapshot.child("imageUri").getValue().toString();
+
+                    if (currentUserId == null){
+                        Log.d("kells", "Current user ID is null");
+                    } else if (chatSenderId == null){
+                        Log.d("kells", "Chat sender ID is null");
+                    } else {
+                        if (!chatSenderId.equals(currentUserId)){
+                            Log.d("kells", "currentUserId != chatSenderId");
+                            if (currentUserRegisTimeStamp == null){
+                                Log.d("kells", "Current user register time stamp is null");
+                            } else if (chatSendMsgTimeStamp == null){
+                                Log.d("kells", "Chat message time stamp is null");
+                            } else {
+                                if (chatMsgEarlierCurrUserRegis(currentUserRegisTimeStamp, chatSendMsgTimeStamp)){
+                                    Log.d("kells", "chat message time is earlier than current user register time");
+                                } else {
+                                    Log.d("kells", "chat message time is later than current user register time");
+                                    tv.append(chatName + "\n"
+                                            + chatMessage + "\n"
+                                            + formatTimeStamp(chatSendMsgTimeStamp) + "\n\n\n");
+
+                                    scrollScrollViewToBottom();
+                                }
+                            }
+                        }
+                    }
 
                     tv.append(chatName + "\n"
                             + chatMessage + "\n"
