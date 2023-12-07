@@ -99,13 +99,14 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
             }
         });
 
+
         // get current user info
         currentUserId = auth.getUid();
         userRef = database.getReference().child("Users");
         userRef.child(currentUserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("kells", "ChatActivity : userRef : onDataChange()");
+                Log.d("kells", "ChatActivity : onCreate() : userRef : onDataChange()");
                 if (dataSnapshot.exists()){
                     currentUserName = dataSnapshot.child("name").getValue(String.class);
                     currentUserEmail = dataSnapshot.child("email").getValue(String.class);
@@ -117,6 +118,15 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                 Log.d("kells", "ChatActivity : userRef : onDataChange() : currentUserRegisTimeStamp = " + currentUserRegisTimeStamp);
                 if (currentUserLanguage != null){
                     Toast.makeText(ChatActivity.this, currentUserLanguage, Toast.LENGTH_SHORT).show();
+                }
+
+                if (currentUserId != null && chatSenderId != null){
+                    if (!chatSenderId.equals(currentUserId)){
+                        Log.d("kells", "currentUserId != chatSenderId");
+                        compareTimestamp();
+                    }
+                } else {
+                    Log.d("kells", "ID is null");
                 }
             }
 
@@ -185,14 +195,6 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
 
                     scrollScrollViewToBottom();
                 }
-
-                if (currentUserId != null && chatSenderId != null){
-                    if (currentUserId != chatSenderId){
-                        Log.d("kells", "currentUserId != chatSenderId");
-                    }
-                } else {
-                    Log.d("kells", "ID is null");
-                }
             }
 
             @Override
@@ -220,6 +222,23 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
 
     } // onStart
 
+    private void compareTimestamp() {
+        Log.d("kells", "ChatActivity : compareTimestamp()");
+            long currUsrRegTs = transferStrToTimestamp(currentUserRegisTimeStamp);
+            long chatSendMsgTs = transferStrToTimestamp(chatSendMsgTimeStamp);
+            if (currUsrRegTs > chatSendMsgTs){
+                Log.d("kells", "current user regis time is later than chat msg");
+            } else if (currUsrRegTs < chatSendMsgTs){
+                Log.d("kells", "current user regis time is early than chat msg");
+            } else {
+                Log.d("kells", "current user regis time is same as chat msg");
+            }
+    }
+
+    private long transferStrToTimestamp(String str){
+        return Long.parseLong(str);
+    }
+
     private String formatTimeStamp(String timeStamp) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
@@ -235,6 +254,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
     protected void onResume() {
         super.onResume();
         Log.d("kells", "ChatActivity : onResume()");
+
     }
 
     @Override
