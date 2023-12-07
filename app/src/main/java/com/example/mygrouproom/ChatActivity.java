@@ -44,21 +44,12 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
     public static String rImage;
     MaterialCardView btnSend;
     EditText etMessage;
-    RecyclerView messageAdapter;
-    ArrayList<Messages> messagesArrayList;
-    MessagesAdapter adapter;
-
-    String currentDate, currentTime;
     String currentUserId, currentUserName, currentUserEmail;
     String currentUserStatus, currentUserImageUri, currentUserRegisTimeStamp;
     String currentUserLanguage;
-
-    String currentGroupName;
-
     TextView tv;
     ScrollView scrollView;
     String chatName, chatSenderId, chatSendMsgTimeStamp, chatMessage, chatImageUri;
-
     private TextToSpeech tts;
 
     @Override
@@ -69,7 +60,6 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
 
         btnSend = findViewById(R.id.btnSend);
         etMessage = findViewById(R.id.etMessage);
-        messageAdapter = findViewById(R.id.messageAdapter);
 
         tv = findViewById(R.id.tv);
         scrollView = findViewById(R.id.scrollView);
