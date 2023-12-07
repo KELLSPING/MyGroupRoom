@@ -82,24 +82,6 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
         initTextToSpeech();
         checkingSpeakTest();
 
-        // get current group chat room name
-        groupRef = database.getReference().child("Groups");
-        groupRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    currentGroupName = dataSnapshot.child("GroupChatRoom1").getKey();
-//                    tv.setText(currentGroupName);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
         // get current user info
         currentUserId = auth.getUid();
         userRef = database.getReference().child("Users");
