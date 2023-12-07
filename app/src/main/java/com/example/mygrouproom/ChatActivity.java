@@ -144,29 +144,21 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                     chatMessage = snapshot.child("message").getValue().toString();
                     chatImageUri = snapshot.child("imageUri").getValue().toString();
 
+                    Log.d("kells", "chatSenderId : " + chatSenderId);
+
                     if (currentUserId == null){
                         Log.d("kells", "Current user ID is null");
                     } else if (chatSenderId == null){
-                        Log.d("kells", "Chat sender ID is null");
+                        Log.d("kells", "Chat msg sender ID is null");
                     } else {
-                        if (!chatSenderId.equals(currentUserId)){
-                            Log.d("kells", "currentUserId != chatSenderId");
-                            if (currentUserRegisTimeStamp == null){
-                                Log.d("kells", "Current user register time stamp is null");
-                            } else if (chatSendMsgTimeStamp == null){
-                                Log.d("kells", "Chat message time stamp is null");
-                            } else {
-                                if (chatMsgEarlierCurrUserRegis(currentUserRegisTimeStamp, chatSendMsgTimeStamp)){
-                                    Log.d("kells", "chat message time is earlier than current user register time");
-                                } else {
-                                    Log.d("kells", "chat message time is later than current user register time");
-                                    tv.append(chatName + "\n"
-                                            + chatMessage + "\n"
-                                            + formatTimeStamp(chatSendMsgTimeStamp) + "\n\n\n");
-
-                                    scrollScrollViewToBottom();
-                                }
-                            }
+                        Log.d("kells", "Both ID are not null");
+                        if (currentUserRegisTimeStamp == null){
+                            Log.d("kells", "Current user register timestamp is null");
+                        } else if (chatSendMsgTimeStamp == null) {
+                            Log.d("kells", "Chat sender message timestamp is null");
+                        } else {
+                            Log.d("kells", "Both timestamp are not null");
+                            Log.d("kells", "Start comparing");
                         }
                     }
 
