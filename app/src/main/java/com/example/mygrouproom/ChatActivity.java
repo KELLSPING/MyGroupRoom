@@ -123,7 +123,11 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                 if (currentUserId != null && chatSenderId != null){
                     if (!chatSenderId.equals(currentUserId)){
                         Log.d("kells", "currentUserId != chatSenderId");
-                        chatMsgEarlierCurrUserRegis();
+                        if (chatMsgEarlierCurrUserRegis(currentUserRegisTimeStamp, chatSendMsgTimeStamp)){
+                            Log.d("kells", "chat message is earlier than current user register time");
+                        } else {
+                            Log.d("kells", "chat message is later than current user register time");
+                        }
                     }
                 } else {
                     Log.d("kells", "ID is null");
@@ -222,16 +226,14 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
 
     } // onStart
 
-    private void chatMsgEarlierCurrUserRegis() {
-        Log.d("kells", "ChatActivity : compareTimestamp()");
-            long currUsrRegTs = transferStrToTimestamp(currentUserRegisTimeStamp);
-            long chatSendMsgTs = transferStrToTimestamp(chatSendMsgTimeStamp);
-            if (currUsrRegTs > chatSendMsgTs){
-                Log.d("kells", "current user regis time is later than chat msg");
-            } else if (currUsrRegTs < chatSendMsgTs){
-                Log.d("kells", "current user regis time is early than chat msg");
+    private boolean chatMsgEarlierCurrUserRegis(String currUserRegisTs, String chatSendMsgTs) {
+        Log.d("kells", "ChatActivity : chatMsgEarlierCurrUserRegis()");
+            long chatSendMsgTsL = transferStrToTimestamp(chatSendMsgTs);
+            long currUserRegisTsL = transferStrToTimestamp(currUserRegisTs);
+            if (currUserRegisTsL > chatSendMsgTsL){
+                return  true;
             } else {
-                Log.d("kells", "current user regis time is same as chat msg");
+                return false;
             }
     }
 
