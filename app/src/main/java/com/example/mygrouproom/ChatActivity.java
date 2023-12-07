@@ -159,14 +159,18 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                         } else {
                             Log.d("kells", "Both timestamp are not null");
                             Log.d("kells", "Start comparing");
+                            if (chatMsgEarlierCurrUserRegis(currentUserRegisTimeStamp, chatSendMsgTimeStamp)){
+                                Log.d("kells", "chat message time is earlier than current user register time");
+                            } else {
+                                Log.d("kells", "chat message time is later than current user register time");
+                                tv.append(chatName + "\n"
+                                        + chatMessage + "\n"
+                                        + formatTimeStamp(chatSendMsgTimeStamp) + "\n\n\n");
+
+                                scrollScrollViewToBottom();
+                            }
                         }
                     }
-
-                    tv.append(chatName + "\n"
-                            + chatMessage + "\n"
-                            + formatTimeStamp(chatSendMsgTimeStamp) + "\n\n\n");
-
-                    scrollScrollViewToBottom();
                 }
             }
 
