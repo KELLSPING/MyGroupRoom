@@ -123,7 +123,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                 if (currentUserId != null && chatSenderId != null){
                     if (!chatSenderId.equals(currentUserId)){
                         Log.d("kells", "currentUserId != chatSenderId");
-                        compareTimestamp();
+                        chatMsgEarlierCurrUserRegis();
                     }
                 } else {
                     Log.d("kells", "ID is null");
@@ -222,7 +222,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
 
     } // onStart
 
-    private void compareTimestamp() {
+    private void chatMsgEarlierCurrUserRegis() {
         Log.d("kells", "ChatActivity : compareTimestamp()");
             long currUsrRegTs = transferStrToTimestamp(currentUserRegisTimeStamp);
             long chatSendMsgTs = transferStrToTimestamp(chatSendMsgTimeStamp);
