@@ -57,7 +57,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
 
     TextView tv;
     ScrollView scrollView;
-    String chatName, chatSenderId, chatSendMsgTimeStamp, chatMessage, chatImageUri, chatMsgKey;
+    String chatName, chatSenderId, chatSendMsgTimeStamp, chatMessage, chatImageUri;
 
     private TextToSpeech tts;
 
@@ -154,9 +154,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
 
                 etMessage.setText("");
 
-                String msgKey = groupRef.push().getKey(); // senderId
-
-                Messages messages = new Messages(currentUserName, currentUserId, sendMsgTimeStamp, msgKey, message, currentUserImageUri);
+                Messages messages = new Messages(currentUserName, currentUserId, sendMsgTimeStamp, message, currentUserImageUri);
 
                 database = FirebaseDatabase.getInstance();
                 database.getReference().child("Groups")
@@ -191,7 +189,6 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
                     chatSendMsgTimeStamp = snapshot.child("sendMsgTimeStamp").getValue().toString();
                     chatMessage = snapshot.child("message").getValue().toString();
                     chatImageUri = snapshot.child("imageUri").getValue().toString();
-                    chatMsgKey = snapshot.child("msgKey").getValue().toString();
 
                     tv.append(chatName + "\n"
                             + chatMessage + "\n"
