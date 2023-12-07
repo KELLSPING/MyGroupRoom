@@ -37,20 +37,19 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnInitListener {
-    DatabaseReference userRef, groupRef, groupNameRef;
+    DatabaseReference userRef, groupNameRef;
     FirebaseDatabase database;
     FirebaseAuth auth;
-    public static String sImage;
-    public static String rImage;
+    public static String sImage, rImage;
     MaterialCardView btnSend;
     EditText etMessage;
-    String currentUserId, currentUserName, currentUserEmail;
-    String currentUserStatus, currentUserImageUri, currentUserRegisTimeStamp;
-    String currentUserLanguage;
+    String currentUserId, currentUserName, currentUserEmail,
+            currentUserStatus, currentUserImageUri, currentUserRegisTimeStamp,
+            currentUserLanguage;
+    String chatName, chatSenderId, chatSendMsgTimeStamp, chatMessage, chatImageUri;
     TextView tv;
     ScrollView scrollView;
-    String chatName, chatSenderId, chatSendMsgTimeStamp, chatMessage, chatImageUri;
-    private TextToSpeech tts;
+    TextToSpeech tts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +57,7 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
         setContentView(R.layout.activity_chat);
         Log.d("kells", "ChatActivity : onCreate()");
 
-        btnSend = findViewById(R.id.btnSend);
-        etMessage = findViewById(R.id.etMessage);
-
-        tv = findViewById(R.id.tv);
-        scrollView = findViewById(R.id.scrollView);
+        linkComponents();
 
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -254,6 +249,13 @@ public class ChatActivity extends AppCompatActivity implements  TextToSpeech.OnI
         }
         super.onDestroy();
         Log.d("kells", "ChatActivity : onDestroy()");
+    }
+
+    private void linkComponents() {
+        btnSend = findViewById(R.id.btnSend);
+        etMessage = findViewById(R.id.etMessage);
+        tv = findViewById(R.id.tv);
+        scrollView = findViewById(R.id.scrollView);
     }
 
     private void scrollScrollViewToBottom() {
